@@ -1,0 +1,38 @@
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 auto-cols-auto p-4 md:px-10 md:py-4" *ngIf="userRepo.length !== 0; else noRepo">
+    <div class="p-4 flex flex-col gap-4 ring-2 ring-slate-400" *ngFor="let repo of userRepo">
+        <a class="text-lg md:text-2xl text-blue-500 font-bold " href={{repo.html_url}}>{{repo.name}}</a>
+        <span>{{repo.description}}</span>
+        <div class="flex flex-wrap gap-2">
+            <div class="w-fit px-2 py-1 rounded-md bg-blue-500 text-white" *ngFor="let topic of repo.topics">
+                {{topic}}
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<div class="flex px-2 py-4 flex-col justify-center items-center gap-4">
+    <div class="flex  text-blue-500 justify-center items-center">
+        <button (click)="previous()" class="px-2 ring-1 ring-slate-500 h-fit"><<</button>
+        <div class="flex flex-wrap justify-center content-center items-center gap-1 md:gap-0">
+            <button (click)="setPage(n)" class="ring-1 ring-slate-500 w-8 text-center" [ngClass]="{'bg-blue-500 ring-blue-500 text-white' : currPage===n}" *ngFor="let n of pages">{{n}}</button>
+        </div>
+        <button (click)="next()" class="px-2 ring-1 ring-slate-500 h-fit justify-center">>></button>
+    </div>
+    <div class="flex gap-4 items-center">
+        <button (click)="first()" class="ring-2 ring-blue-500 rounded-2xl px-2 py-1 text-blue-500"><--- Older</button>
+        <div>Count/Page: 
+            <select >
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="75">75</option>
+                <option value="100">100</option>
+            </select>
+        </div>
+        <button (click)="last()" class="ring-2 ring-blue-500 rounded-2xl px-2 py-1 text-blue-500">Newer ---></button>
+    </div>
+</div>
+
+<ng-template #noRepo><div class="h-full flex justify-center items-center text-lg font-medium text-blue-500">No repositories available.</div></ng-template>    
