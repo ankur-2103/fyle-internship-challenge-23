@@ -1,10 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ApiService } from './services/api.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('AppComponent', () => {
-  beforeEach(() => TestBed.configureTestingModule({
-    declarations: [AppComponent]
-  }));
+  let service
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [AppComponent],
+      imports: [HttpClientTestingModule, ReactiveFormsModule]
+    });
+    service = TestBed.inject(ApiService)
+  });
 
   it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);

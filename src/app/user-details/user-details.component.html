@@ -1,6 +1,6 @@
-<div class="flex flex-col py-4 md:flex-row flex-1 md:px-20 md:py-4 md:gap-16">
+<div *ngIf="!loader.getLoadingStatus()" class="flex flex-col py-4 md:flex-row flex-1 md:px-20 md:py-4 md:gap-16">
     <div class="flex flex-col items-center justify-center gap-4">
-        <img class="rounded-full w-40 ring-2 ring-slate-300 ring-offset-2" src={{userInfo.avatar_url}}/>
+        <img class="rounded-full w-40 ring-2 ring-slate-300 ring-offset-2" src={{userInfo.avatar_url}} alt="avatar"/>
         <span class="flex items-center gap-1">
             <img class="w-6" src="../../assets/link.svg"/>
             <a class="text-[14px]" href={{userInfo.html_url}}>{{userInfo.html_url}}</a>
@@ -11,5 +11,18 @@
         <span *ngIf="userInfo.bio">{{userInfo.bio}}</span>
         <span class="flex gap-2" *ngIf="userInfo.location"><img class="w-6" src="../../assets/location.svg"/>{{userInfo.location}}</span>
         <span *ngIf="userInfo.twitter_username">Twitter: <a href="https://twitter.com/{{userInfo.twitter_username}}">https://twitter.com/{{userInfo.twitter_username}}</a></span>
+    </div>
+</div>
+
+<div *ngIf="loader.getLoadingStatus()" class="flex flex-col py-4 md:flex-row flex-1 md:px-20 md:py-4 md:gap-16">
+    <div class="flex flex-col items-center justify-center gap-4">
+        <div class="rounded-full w-40 h-40 bg-slate-300 ring-2 ring-slate-300 ring-offset-2 animate-pulse"></div>
+        <span class="flex items-center gap-1 w-40 h-4 rounded-md animate-pulse bg-slate-300"></span>
+    </div>
+    <div class="flex flex-col gap-2 md:gap-4 px-4 py-2 items-center md:items-start">
+        <span class="flex items-center gap-1 w-52 h-8 rounded-md animate-pulse bg-slate-300"></span>
+        <span class="flex items-center gap-1 w-44 h-4 rounded-md animate-pulse bg-slate-300"></span>
+        <span class="flex items-center gap-1 w-40 h-4 rounded-md animate-pulse bg-slate-300"></span>
+        <span class="flex items-center gap-1 w-52 h-4 rounded-md animate-pulse bg-slate-300"></span>
     </div>
 </div>

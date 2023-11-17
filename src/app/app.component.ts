@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 import { ApiService } from './services/api.service';
 import { FormControl } from '@angular/forms';
 import { UserInfo } from './utils/userInfo';
@@ -13,9 +13,11 @@ export class AppComponent implements OnInit{
   userName = new FormControl<string>("johnpapa");
   userInfo: UserInfo | null = null;
   loading: boolean = false;
+  title = 'fyle-frontend-challenge';
 
   constructor(
-    private apiService: ApiService
+    private apiService: ApiService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   onSubmit() {
@@ -33,7 +35,6 @@ export class AppComponent implements OnInit{
           this.userInfo.public_repos = data.public_repos && data.public_repos
         },
         error: (error) => {
-          // console.log(error)
           this.userInfo = null;
         }
       });
@@ -42,5 +43,9 @@ export class AppComponent implements OnInit{
   
   ngOnInit() {
     this.onSubmit()
+  }
+
+  ngAfterContentChecked() {
+    this.changeDetectorRef.detectChanges();
   }
 }

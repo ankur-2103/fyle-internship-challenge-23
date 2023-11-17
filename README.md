@@ -1,3 +1,24 @@
+# How to run testcases
+1. Clone the repository :
+    ```bash
+    git clone https://github.com/ankur-2103/fyle-internship-challenge-23.git
+    ```
+
+2. Change to the project directory :
+    ```bash
+    cd fyle-internship-challenge-23.git
+    ```
+
+3. Install the project dependencies :
+    ```bash
+    npm install
+    ```
+
+4. Run this commnad to run all testcases
+    ```bash
+    npm run test
+    ```
+
 # Fyle Frontend Challenge
 
 ## Who is this for?

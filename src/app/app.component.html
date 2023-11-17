@@ -1,7 +1,7 @@
 <div class="h-screen flex flex-col">
 
   <div class="flex gap-2 justify-between items-center px-2 md:px-20 py-2 bg-blue-500">
-    <div class="font-medium text-center md:text-xl text-white">Fyle Frontend Challenge</div>
+    <div class="font-medium text-center md:text-xl text-white">{{title}}</div>
   <div>
     <form class="flex gap-2" (submit)="onSubmit()">
       <input type="search" placeholder="Search Github User" class="outline outline-2 outline-white text-white placeholder:text-white px-2 py-1 md:w-40 rounded-md bg-[transparent] w-full" [formControl]="userName" />
@@ -10,11 +10,15 @@
   </div>
 </div>
 
-
-
 <app-user-details *ngIf="userInfo!==null; else enterValidUserName" [userInfo]="userInfo"></app-user-details>
-<app-user-reops *ngIf="userInfo?.repos_url!==null" [userRepoUrl]="userInfo?.repos_url" [userRepoCount]="userInfo?.public_repos" class="h-full"></app-user-reops>
+
+<app-user-reops *ngIf="userInfo!==null" [userInfo]="userInfo" class="h-full"></app-user-reops>
 
 <ng-template #enterValidUserName><div class="w-full h-full flex justify-center items-center text-lg font-medium text-blue-500">Enter valid github user name.</div></ng-template>
 
+
+</div>
+
+<div id="content" class="content hidden">
+  <span>fyle-frontend-challenge app is running!</span>
 </div>

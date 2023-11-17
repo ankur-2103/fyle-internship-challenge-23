@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { UserRepo } from '../utils/userRepo';
 import { ApiService } from '../services/api.service';
+import { UserInfo } from '../utils/userInfo';
+import { LoaderService } from '../services/loader.service';
 
 @Component({
   selector: 'app-user-reops',
@@ -9,26 +11,27 @@ import { ApiService } from '../services/api.service';
 })
   
 export class UserReopsComponent {
-  @Input({ required: true }) userRepoUrl!: string | null | undefined;
-  @Input({ required: true }) userRepoCount!: number | null | undefined;
+  @Input({ required: true }) userInfo!: UserInfo;
 
   countPerPage:number = 10;
   currPage: number = 1;
-  totalPages: number = typeof(this.userRepoCount)==="number" ? Math.ceil(this.userRepoCount / this.countPerPage) : 0;
+  totalPages: number = 0;
 
   userRepo: UserRepo[] = [];
 
   constructor(
-    private apiService: ApiService
+    private apiService: ApiService,
+    public loader: LoaderService
   ) { }
 
   pages = Array(this.totalPages).map((x, i) => i + 1);
   
-  getRepos() {
-    if (this.userRepoUrl) {
-      this.apiService.getRepos(this.userRepoUrl, this.countPerPage, this.currPage).subscribe({
+  getRepos(count:number, page:number) {
+    if (this.userInfo!== null && this.userInfo.repos_url!== null) {
+      this.apiService.getRepos(this.userInfo.repos_url, count, page).subscribe({
         next: (data:any) => {
           if (data !== null) {
+            this.userRepo = []
             for (let repo in data) {
               let newRepo = {} as UserRepo;
               newRepo.description = data[repo].description;
@@ -46,42 +49,46 @@ export class UserReopsComponent {
     }
   }
 
-  setTotalPages(value:string) {
-    this.totalPages = parseInt(value);
+  setCount(event:any) {
+    this.countPerPage = parseInt(event.target.value);
+    this.currPage = 1;
+    this.totalPages = typeof (this.userInfo.public_repos) === "number" ? Math.ceil(this.userInfo.public_repos / this.countPerPage) : 0;
+    this.pages = Array(this.totalPages).fill(0).map((x,i)=>i+1);
+    this.getRepos(this.countPerPage, this.currPage)
   }
-
+  
   setPage(value: number) {
     this.currPage = value
+    this.getRepos(this.countPerPage, this.currPage)
   }
-
+  
   next() {
     if (this.totalPages >= this.currPage + 1) {
       this.currPage = this.currPage + 1;
+      this.getRepos(this.countPerPage, this.currPage)
     }
   }
-
+  
   previous() {
     if (1 <= this.currPage - 1) {
       this.currPage = this.currPage - 1;
+      this.getRepos(this.countPerPage, this.currPage)
     }
   }
-
+  
   last() {
     this.currPage = this.totalPages
+    this.getRepos(this.countPerPage, this.currPage)
   }
-
+  
   first() {
     this.currPage = 1;
+    this.getRepos(this.countPerPage, this.currPage)
   }
 
   ngOnChanges() {
-    this.getRepos();
-    console.log("asas")
-  }
-
-  ngOnInit() {
-    this.getRepos();
-    this.totalPages = typeof (this.userRepoCount) === "number" ? Math.ceil(this.userRepoCount / this.countPerPage) : 0;
+    this.getRepos(this.countPerPage, this.currPage);
+    this.totalPages = typeof (this.userInfo.public_repos) === "number" ? Math.ceil(this.userInfo.public_repos / this.countPerPage) : 0;
     this.pages = Array(this.totalPages).fill(0).map((x,i)=>i+1);
   }
 }
