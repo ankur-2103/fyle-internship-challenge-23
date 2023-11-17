@@ -6,7 +6,7 @@
 
 2. Change to the project directory :
     ```bash
-    cd fyle-internship-challenge-23.git
+    cd fyle-internship-challenge-23
     ```
 
 3. Install the project dependencies :
